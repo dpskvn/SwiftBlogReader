@@ -10,7 +10,7 @@ import UIKit
 
 class MasterViewController: UITableViewController {
 
-    var blogPosts = BlogPost[]()
+    var blogPosts = [BlogPost]()
 
 
     override func awakeFromNib() {
