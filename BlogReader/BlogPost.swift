@@ -10,25 +10,21 @@ import UIKit
 
 class BlogPost: NSObject {
     var title: String
-    var author: String = ""
-    var thumbnail: String = ""
-    var date: String = ""
-    var url: NSURL = NSURL()
+    var author: String?
+    var thumbnail: String?
+    var date: String?
+    var url: NSURL?
     
     init(title: String) {
         self.title = title
         super.init()
     }
     
-    func thumbnailURL() -> NSURL {
-        return NSURL.URLWithString(thumbnail)
-    }
-    
     func formattedDate() -> String {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let tempDate = dateFormatter.dateFromString(date)
+        let tempDate = dateFormatter.dateFromString(date!)
         dateFormatter.dateFormat = "EE MMM, dd"
-        return dateFormatter.stringFromDate(tempDate)
+        return dateFormatter.stringFromDate(tempDate!)
     }
 }

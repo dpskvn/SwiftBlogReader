@@ -10,7 +10,7 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
-    @IBOutlet var webView : UIWebView = nil
+    @IBOutlet var webView : UIWebView?
     
     var blogPostUrl:NSURL = NSURL()
     var blogPostTitle = ""
@@ -24,7 +24,7 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.navigationItem.title = blogPostTitle
-        webView.loadRequest(NSURLRequest(URL: blogPostUrl))
+        webView?.loadRequest(NSURLRequest(URL: blogPostUrl))
 
     }
 

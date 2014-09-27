@@ -31,9 +31,9 @@ class MasterViewController: UITableViewController {
         
         for bpDictionary:NSDictionary in blogPostArray {
             var blogPost = BlogPost(title: bpDictionary["title"] as String)
-            blogPost.author = bpDictionary["author"] as String
-            blogPost.thumbnail = bpDictionary["thumbnail"] as String
-            blogPost.date = bpDictionary["date"] as String
+            blogPost.author = bpDictionary["author"] as? String
+            blogPost.thumbnail = bpDictionary["thumbnail"] as? String
+            blogPost.date = bpDictionary["date"] as? String
             blogPost.url = NSURL(string: bpDictionary["url"] as String)
             blogPosts.append(blogPost)
         }
@@ -49,8 +49,8 @@ class MasterViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showDetail" {
             let indexPath = self.tableView.indexPathForSelectedRow()
-            let blogPost = blogPosts[indexPath.row]
-            (segue.destinationViewController as DetailViewController).blogPostUrl = blogPost.url
+            let blogPost = blogPosts[indexPath!.row]
+            (segue.destinationViewController as DetailViewController).blogPostUrl = blogPost.url!
             (segue.destinationViewController as DetailViewController).blogPostTitle = blogPost.title
         }
     }
@@ -70,17 +70,18 @@ class MasterViewController: UITableViewController {
 
         let blogPost: BlogPost = blogPosts[indexPath.row]
         
-        if blogPost.thumbnail.isEmpty {
-            let image = UIImage(named: "treehouse.png")
-            cell.imageView.image = image
-        } else {
-            let imageData = NSData(contentsOfURL: blogPost.thumbnailURL())
+        if let thumb = blogPost.thumbnail {
+            let thumbURL = NSURL(string: thumb)
+            let imageData = NSData(contentsOfURL: thumbURL)
             let image = UIImage(data: imageData)
-            cell.imageView.image = image
+            cell.imageView!.image = image
+        } else {
+            let image = UIImage(named: "treehouse.png")
+            cell.imageView!.image = image
         }
         
-        cell.textLabel.text = blogPost.title
-        cell.detailTextLabel.text = "\(blogPost.author) - \(blogPost.formattedDate())"
+        cell.textLabel!.text = blogPost.title
+        cell.detailTextLabel!.text = "\(blogPost.author!) - \(blogPost.formattedDate())"
         return cell
     }
 
